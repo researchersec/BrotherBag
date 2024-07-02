@@ -65,9 +65,10 @@ $(document).ready(function() {
                     var itemIcon = itemDetails.icon;
                     var itemName = itemDetails.name;
                     var itemLink = 'https://classic.wowhead.com/item=' + itemId;
+                    var itemClass = getItemClass(itemDetails.quality);
 
                     // Generate HTML for each item
-                    html += '<li>' + itemCount + 'x <a class="white" href="' + itemLink + '" rel="nofollow" target="_blank"><img align="absmiddle" alt class="icon" src="https://wow.zamimg.com/images/wow/icons/small/' + itemIcon + '.jpg">' + itemName + '</a></li>';
+                    html += '<li>' + itemCount + 'x <a class="' + itemClass + '" href="' + itemLink + '" rel="nofollow" target="_blank"><img align="absmiddle" alt class="icon" src="https://wow.zamimg.com/images/wow/icons/small/' + itemIcon + '.jpg">' + itemName + '</a></li>';
                 } else {
                     html += '<li>' + itemCount + 'x ' + itemId + '</li>';
                 }
@@ -104,5 +105,23 @@ $(document).ready(function() {
             }
         }
         return null;
+    }
+
+    // Function to get item class based on quality
+    function getItemClass(quality) {
+        switch (quality) {
+            case 'Common':
+                return 'white';
+            case 'Uncommon':
+                return 'zold';
+            case 'Rare':
+                return 'rare';
+            case 'Epic':
+                return 'epic';
+            case 'Legendary':
+                return 'legendary';
+            default:
+                return 'white';
+        }
     }
 });
