@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/researchersec/BrotherBag/issues"
   },
-  "homepage": "https://github.com/researchersec/BrotherBag#readme"
+  "homepage": "https://github.com/researchersec/BrotherBag#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
