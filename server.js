@@ -1,42 +1,38 @@
 const express = require('express');
-const multer  = require('multer');
+const multer = require('multer');
 const fs = require('fs');
-const { LuaRuntime } = require('lupa');
-
+const path = require('path');
+const luaJson = require('lua-json'); // Import lua-json package
+const bodyParser = require('body-parser');
 const app = express();
+
+app.use(bodyParser.json());
+
 const upload = multer({ dest: 'uploads/' });
-const lua = new LuaRuntime();
 
-app.use(express.static('public'));
+app.post('/upload', upload.single('file'), (req, res) => {
+    const file = req.file;
+    const luaFilePath = file.path;
 
-app.post('/upload', upload.single('luaFile'), (req, res) => {
-    const luaContent = fs.readFileSync(req.file.path, 'utf8');
-    lua.execute(luaContent);
+    fs.readFile(luaFilePath, 'utf8', (err, luaContent) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read Lua file' });
+        }
 
-    const brotherBags = lua.globals().BrotherBags;
-    const brotherBagsDict = luaTableToDict(brotherBags);
+        try {
+            const brotherBagsJson = luaJson.parse(luaContent); // Convert Lua to JSON
 
-    fs.writeFileSync('uploads/BrotherBags.json', JSON.stringify(brotherBagsDict, null, 4));
+            // Save the resulting JSON to a file (optional)
+            const jsonFilePath = path.join(__dirname, 'uploads', `${file.originalname}.json`);
+            fs.writeFileSync(jsonFilePath, JSON.stringify(brotherBagsJson, null, 4));
 
-    res.sendStatus(200);
+            res.json(brotherBagsJson);
+        } catch (e) {
+            res.status(500).json({ error: 'Failed to convert Lua to JSON' });
+        }
+    });
 });
 
-function luaTableToDict(luaTable) {
-    if (typeof luaTable === 'object' && luaTable !== null) {
-        if (Array.isArray(luaTable)) {
-            return luaTable.map(item => luaTableToDict(item));
-        } else {
-            const dict = {};
-            for (const [key, value] of Object.entries(luaTable)) {
-                dict[key] = luaTableToDict(value);
-            }
-            return dict;
-        }
-    } else {
-        return luaTable;
-    }
-}
-
 app.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
+    console.log('Server is running on port 3000');
 });

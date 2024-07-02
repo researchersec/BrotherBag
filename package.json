@@ -19,6 +19,8 @@
   "homepage": "https://github.com/researchersec/BrotherBag#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "lua-json": "^1.0.0",
+    "body-parser": "^1.19.0"
   }
 }
