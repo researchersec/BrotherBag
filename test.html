@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrotherBags Data</title>
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Wowhead Tooltip Script -->
+    <script>var whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+    <script src="https://wow.zamimg.com/widgets/power.js"></script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <!-- Include wowclassic.js -->
+    <script src="wowclassic.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>BrotherBags Data</h1>
+        <label for="name-filter">Filter by Name:</label>
+        <select id="name-filter">
+            <option value="">All</option>
+        </select>
+        <table id="data-table" class="display">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Realm</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
