@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload BagBrother.lua</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="script.js"></script>
+    <title>BagBrother Lua to JSON</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Upload BagBrother.lua</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".lua" required />
-        <button type="submit">Upload</button>
+    <form id="luaForm">
+        <textarea id="luaText" placeholder="Paste your BagBrother.lua content here" rows="20" cols="80"></textarea>
+        <input type="submit" value="Convert">
     </form>
+    <div id="output"></div>
+    <script src="https://cdn.jsdelivr.net/npm/lua-parser@latest/lua.min.js"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="wowclassic.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
