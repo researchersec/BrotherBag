@@ -5,17 +5,16 @@ $(document).ready(function() {
         var luaContent = $('#luaText').val();
 
         if (!luaContent.trim()) {
-            alert("Please paste the content of BagBrother.lua.");
+            log("Please paste the content of BagBrother.lua.");
             return;
         }
 
         try {
             var brotherBagsJson = luaToJson(luaContent);
-            console.log('Parsed JSON:', brotherBagsJson);
+            log('Parsed JSON: ' + JSON.stringify(brotherBagsJson, null, 2));
             displayData(brotherBagsJson);
         } catch (error) {
-            console.error('Error parsing Lua:', error);
-            alert('Error parsing Lua: ' + error);
+            log('Error parsing Lua: ' + error);
         }
     });
 
@@ -100,8 +99,12 @@ $(document).ready(function() {
                 }
             }
         } else {
-            console.error('No BrotherBags data found');
-            alert('No BrotherBags data found');
+            log('No BrotherBags data found');
         }
+    }
+
+    function log(message) {
+        var logDiv = $('#log');
+        logDiv.append(message + '\n');
     }
 });
