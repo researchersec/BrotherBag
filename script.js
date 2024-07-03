@@ -48,52 +48,57 @@ $(document).ready(function() {
         var output = $('#output');
         output.empty();
 
-        for (var character in data) {
-            var characterData = data[character];
-            var items = {};
+        if (data && data.BrotherBags) {
+            for (var character in data.BrotherBags) {
+                var characterData = data.BrotherBags[character];
+                var items = {};
 
-            for (var bag in characterData) {
-                var bagData = characterData[bag];
+                for (var bag in characterData) {
+                    var bagData = characterData[bag];
 
-                for (var slot in bagData) {
-                    if (slot !== 'size' && slot !== 'link') {
-                        var itemString = bagData[slot];
-                        var [itemId, itemCount] = itemString.split(';');
+                    for (var slot in bagData) {
+                        if (slot !== 'size' && slot !== 'link') {
+                            var itemString = bagData[slot];
+                            var [itemId, itemCount] = itemString.split(';');
 
-                        itemId = itemId.split('::::::::')[0];
-                        itemCount = parseInt(itemCount) || 1;
+                            itemId = itemId.split('::::::::')[0];
+                            itemCount = parseInt(itemCount) || 1;
 
-                        if (!items[itemId]) {
-                            items[itemId] = 0;
+                            if (!items[itemId]) {
+                                items[itemId] = 0;
+                            }
+
+                            items[itemId] += itemCount;
                         }
+                    }
+                }
 
-                        items[itemId] += itemCount;
+                for (var itemId in items) {
+                    var item = classicitems.find(item => item.itemId == itemId);
+
+                    if (item) {
+                        var itemName = item.name;
+                        var itemIcon = item.icon;
+                        var itemCount = items[itemId];
+                        var itemQuality = item.quality.toLowerCase();
+                        var itemClass = itemQuality === 'common' ? 'white' :
+                                        itemQuality === 'uncommon' ? 'zold' :
+                                        itemQuality === 'rare' ? 'rare' :
+                                        itemQuality === 'epic' ? 'epic' :
+                                        itemQuality === 'legendary' ? 'legendary' : '';
+
+                        var itemLink = `<a class="${itemClass}" href="https://classic.wowhead.com/item=${itemId}" target="_blank">
+                                          <img src="https://wow.zamimg.com/images/wow/icons/small/${itemIcon}.jpg" alt="${itemName}" />
+                                          ${itemName}
+                                        </a>`;
+
+                        output.append(`<div>${itemCount}x ${itemLink}</div>`);
                     }
                 }
             }
-
-            for (var itemId in items) {
-                var item = classicitems.find(item => item.itemId == itemId);
-
-                if (item) {
-                    var itemName = item.name;
-                    var itemIcon = item.icon;
-                    var itemCount = items[itemId];
-                    var itemQuality = item.quality.toLowerCase();
-                    var itemClass = itemQuality === 'common' ? 'white' :
-                                    itemQuality === 'uncommon' ? 'zold' :
-                                    itemQuality === 'rare' ? 'rare' :
-                                    itemQuality === 'epic' ? 'epic' :
-                                    itemQuality === 'legendary' ? 'legendary' : '';
-
-                    var itemLink = `<a class="${itemClass}" href="https://classic.wowhead.com/item=${itemId}" target="_blank">
-                                      <img src="https://wow.zamimg.com/images/wow/icons/small/${itemIcon}.jpg" alt="${itemName}" />
-                                      ${itemName}
-                                    </a>`;
-
-                    output.append(`<div>${itemCount}x ${itemLink}</div>`);
-                }
-            }
+        } else {
+            console.error('No BrotherBags data found');
+            alert('No BrotherBags data found');
         }
     }
 });
