@@ -1,10 +1,4 @@
 $(document).ready(function() {
-    // Load previously saved data if available
-    if (localStorage.getItem('brotherBagsJson')) {
-        var savedData = JSON.parse(localStorage.getItem('brotherBagsJson'));
-        displayData(savedData);
-    }
-
     $('#luaForm').submit(function(e) {
         e.preventDefault();
 
@@ -18,7 +12,6 @@ $(document).ready(function() {
         try {
             var brotherBagsJson = luaToJson(luaContent);
             console.log('Parsed JSON:', brotherBagsJson);
-            localStorage.setItem('brotherBagsJson', JSON.stringify(brotherBagsJson));
             displayData(brotherBagsJson);
         } catch (error) {
             console.error('Error parsing Lua:', error);
@@ -28,19 +21,29 @@ $(document).ready(function() {
 
     function luaToJson(luaContent) {
         const jsonResult = {};
-        // Convert the Lua table to JSON format
-        luaContent.replace(/(\w+)\s*=\s*{([^}]+)}/g, (match, key, content) => {
-            jsonResult[key] = parseLuaTable(content);
-        });
+        const regex = /(\w+)\s*=\s*{([^}]*)}/g;
+        let match;
 
-        return jsonResult;
+        while ((match = regex.exec(luaContent)) !== null) {
+            const key = match[1];
+            const content = match[2];
+            jsonResult[key] = parseLuaTable(content);
+        }
+
+        return { BrotherBags: jsonResult };
     }
 
     function parseLuaTable(tableContent) {
         const result = {};
-        tableContent.replace(/(\w+)\s*=\s*["']?([^,"'}\s]+)["']?/g, (match, key, value) => {
-            result[key] = value;
-        });
+        const itemRegex = /"(\d+)::::::::(\d*):[^"]*";(\d*)/g;
+        let match;
+
+        while ((match = itemRegex.exec(tableContent)) !== null) {
+            const itemId = match[1];
+            const itemCount = match[3] || 1;
+            result[itemId] = itemCount;
+        }
+
         return result;
     }
 
