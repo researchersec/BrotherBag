@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BagBrother Lua to JSON</title>
-    <link rel="stylesheet" href="style.css">
+    <title>BagBrother to JSON Converter</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <form id="luaForm">
-        <textarea id="luaText" placeholder="Paste your BagBrother.lua content here" rows="20" cols="80"></textarea>
-        <input type="submit" value="Convert">
+        <label for="luaText">Paste your BagBrother.lua content here:</label>
+        <textarea id="luaText" rows="10" cols="50"></textarea>
+        <button type="submit">Convert</button>
     </form>
     <div id="output"></div>
-    <script src="https://cdn.jsdelivr.net/npm/lua-parser@latest/lua.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="wowclassic.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lua-json@1.0.0/dist/lua-json.min.js"></script>
+    <script src="wowclassic.js"></script> <!-- Ensure this file is included -->
     <script src="script.js"></script>
 </body>
 </html>
