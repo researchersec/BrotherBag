@@ -16,8 +16,7 @@ $(document).ready(function() {
         }
 
         try {
-            var luaAST = luaParser.parse(luaContent);
-            var brotherBagsJson = luaASTToJson(luaAST);
+            var brotherBagsJson = luaToJson(luaContent);
             localStorage.setItem('brotherBagsJson', JSON.stringify(brotherBagsJson));
             displayData(brotherBagsJson);
         } catch (error) {
@@ -26,26 +25,22 @@ $(document).ready(function() {
         }
     });
 
-    function luaASTToJson(luaAST) {
-        function traverse(node) {
-            switch (node.type) {
-                case 'TableConstructorExpression':
-                    var obj = {};
-                    node.fields.forEach(field => {
-                        var key = field.key.type === 'Identifier' ? field.key.name : field.key.value;
-                        obj[key] = traverse(field.value);
-                    });
-                    return obj;
-                case 'Literal':
-                    return node.value;
-                case 'Identifier':
-                    return node.name;
-                default:
-                    return null;
-            }
-        }
+    function luaToJson(luaContent) {
+        const jsonResult = {};
 
-        var result = traverse(luaAST.body[0].arguments[0]);
+        // Convert the Lua table to JSON format
+        luaContent.replace(/(\w+)\s*=\s*{([^}]+)}/g, (match, key, content) => {
+            jsonResult[key] = parseLuaTable(content);
+        });
+
+        return jsonResult;
+    }
+
+    function parseLuaTable(tableContent) {
+        const result = {};
+        tableContent.replace(/(\w+)\s*=\s*["']?([^,"'}\s]+)["']?/g, (match, key, value) => {
+            result[key] = value;
+        });
         return result;
     }
 
