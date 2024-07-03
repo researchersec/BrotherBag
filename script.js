@@ -17,6 +17,7 @@ $(document).ready(function() {
 
         try {
             var brotherBagsJson = luaToJson(luaContent);
+            console.log('Parsed JSON:', brotherBagsJson);
             localStorage.setItem('brotherBagsJson', JSON.stringify(brotherBagsJson));
             displayData(brotherBagsJson);
         } catch (error) {
@@ -27,7 +28,6 @@ $(document).ready(function() {
 
     function luaToJson(luaContent) {
         const jsonResult = {};
-
         // Convert the Lua table to JSON format
         luaContent.replace(/(\w+)\s*=\s*{([^}]+)}/g, (match, key, content) => {
             jsonResult[key] = parseLuaTable(content);
