@@ -98,8 +98,12 @@ $(document).ready(function() {
                     var characterData = serverData[character];
                     var items = characterData["0"] || {};
 
-                    for (var itemId in items) {
-                        var itemCount = items[itemId];
+                    for (var itemKey in items) {
+                        if (itemKey === "size") continue;
+
+                        var itemCount = items[itemKey];
+                        var itemId = itemKey.split(':')[0];
+
                         var item = classicitems.find(item => item.itemId == itemId);
 
                         if (item) {
