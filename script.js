@@ -75,6 +75,8 @@ $(document).ready(function() {
                 return value.value;
             case 'TableConstructorExpression':
                 return traverseTable(value);
+            case 'TableValue':
+                return getFieldValue(value.value);
             default:
                 return value.raw;
         }
@@ -89,7 +91,7 @@ $(document).ready(function() {
                 var serverData = data[server];
                 Object.keys(serverData).forEach(function(character) {
                     var characterData = serverData[character];
-                    var items = characterData[0] || {};
+                    var items = characterData["0"] || {};
 
                     for (var itemId in items) {
                         var itemCount = items[itemId];
