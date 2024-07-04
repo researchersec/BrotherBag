@@ -86,6 +86,11 @@ $(document).ready(function() {
         var output = $('#output');
         output.empty();
 
+        if (typeof classicitems === 'undefined') {
+            log('classicitems is not defined');
+            return;
+        }
+
         if (data) {
             Object.keys(data).forEach(function(server) {
                 var serverData = data[server];
@@ -113,6 +118,8 @@ $(document).ready(function() {
                                             </a>`;
 
                             output.append(`<div>${itemCount}x ${itemLink}</div>`);
+                        } else {
+                            output.append(`<div>${itemCount}x Item ID: ${itemId} (Item data not found)</div>`);
                         }
                     }
                 });
