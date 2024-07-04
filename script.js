@@ -28,7 +28,7 @@ $(document).ready(function() {
                 if (node.type === 'AssignmentStatement') {
                     node.variables.forEach(function(variable, index) {
                         if (variable.name === 'BrotherBags') {
-                            jsonResult.BrotherBags = traverseTable(node.init[index]);
+                            jsonResult = traverseTable(node.init[index]);
                         }
                     });
                 }
@@ -45,7 +45,8 @@ $(document).ready(function() {
         if (node.type === 'TableConstructorExpression') {
             node.fields.forEach(function(field) {
                 var key = getFieldKey(field.key);
-                result[key] = getFieldValue(field.value);
+                var value = getFieldValue(field.value);
+                result[key] = value;
             });
         }
         return result;
@@ -68,6 +69,7 @@ $(document).ready(function() {
         if (!value) return value;
         switch (value.type) {
             case 'StringLiteral':
+                return value.raw.replace(/^"(.*)"$/, '$1');
             case 'NumericLiteral':
             case 'BooleanLiteral':
                 return value.value;
@@ -82,34 +84,37 @@ $(document).ready(function() {
         var output = $('#output');
         output.empty();
 
-        if (data && data.BrotherBags) {
-            for (var character in data.BrotherBags) {
-                var characterData = data.BrotherBags[character];
-                var items = characterData[0] || {};
+        if (data) {
+            Object.keys(data).forEach(function(server) {
+                var serverData = data[server];
+                Object.keys(serverData).forEach(function(character) {
+                    var characterData = serverData[character];
+                    var items = characterData[0] || {};
 
-                for (var itemId in items) {
-                    var itemCount = items[itemId];
-                    var item = classicitems.find(item => item.itemId == itemId);
+                    for (var itemId in items) {
+                        var itemCount = items[itemId];
+                        var item = classicitems.find(item => item.itemId == itemId);
 
-                    if (item) {
-                        var itemName = item.name;
-                        var itemIcon = item.icon;
-                        var itemQuality = item.quality.toLowerCase();
-                        var itemClass = itemQuality === 'common' ? 'white' :
-                                        itemQuality === 'uncommon' ? 'zold' :
-                                        itemQuality === 'rare' ? 'rare' :
-                                        itemQuality === 'epic' ? 'epic' :
-                                        itemQuality === 'legendary' ? 'legendary' : '';
+                        if (item) {
+                            var itemName = item.name;
+                            var itemIcon = item.icon;
+                            var itemQuality = item.quality.toLowerCase();
+                            var itemClass = itemQuality === 'common' ? 'white' :
+                                            itemQuality === 'uncommon' ? 'zold' :
+                                            itemQuality === 'rare' ? 'rare' :
+                                            itemQuality === 'epic' ? 'epic' :
+                                            itemQuality === 'legendary' ? 'legendary' : '';
 
-                        var itemLink = `<a class="${itemClass}" href="https://classic.wowhead.com/item=${itemId}" target="_blank">
-                                          <img src="https://wow.zamimg.com/images/wow/icons/small/${itemIcon}.jpg" alt="${itemName}" />
-                                          ${itemName}
-                                        </a>`;
+                            var itemLink = `<a class="${itemClass}" href="https://classic.wowhead.com/item=${itemId}" target="_blank">
+                                              <img src="https://wow.zamimg.com/images/wow/icons/small/${itemIcon}.jpg" alt="${itemName}" />
+                                              ${itemName}
+                                            </a>`;
 
-                        output.append(`<div>${itemCount}x ${itemLink}</div>`);
+                            output.append(`<div>${itemCount}x ${itemLink}</div>`);
+                        }
                     }
-                }
-            }
+                });
+            });
         } else {
             log('No BrotherBags data found');
         }
