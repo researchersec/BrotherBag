@@ -19,32 +19,39 @@ $(document).ready(function() {
     });
 
     function luaToJson(luaContent) {
-        const jsonResult = {};
-        const regex = /(\w+)\s*=\s*{([^}]*)}/gs;
-        let match;
+        try {
+            var luaAST = luaparse.parse(luaContent);
+            log('Lua AST: ' + JSON.stringify(luaAST, null, 2));
+            var jsonResult = {};
 
-        while ((match = regex.exec(luaContent)) !== null) {
-            const key = match[1];
-            const content = match[2];
-            log(`Parsing key: ${key}`);
-            jsonResult[key] = parseLuaTable(content);
+            // Traverse the AST to extract BrotherBags
+            luaAST.body.forEach(function(node) {
+                if (node.type === 'AssignmentStatement') {
+                    node.variables.forEach(function(variable, index) {
+                        if (variable.name === 'BrotherBags') {
+                            jsonResult.BrotherBags = traverseTable(node.init[index]);
+                        }
+                    });
+                }
+            });
+
+            return jsonResult;
+        } catch (error) {
+            throw new Error('Failed to parse Lua: ' + error.message);
         }
-
-        return { BrotherBags: jsonResult };
     }
 
-    function parseLuaTable(tableContent) {
-        const result = {};
-        const itemRegex = /"([^"]+)"/g;
-        let match;
-
-        while ((match = itemRegex.exec(tableContent)) !== null) {
-            const itemString = match[1];
-            log(`Parsing item string: ${itemString}`);
-            const [itemId, , , , , , , , , , itemCount] = itemString.split(':');
-            result[itemId] = itemCount ? parseInt(itemCount) : 1;
+    function traverseTable(node) {
+        var result = {};
+        if (node.type === 'TableConstructorExpression') {
+            node.fields.forEach(function(field) {
+                if (field.key.type === 'Identifier' && field.value.type === 'TableConstructorExpression') {
+                    result[field.key.name] = traverseTable(field.value);
+                } else if (field.key.type === 'Identifier') {
+                    result[field.key.name] = field.value.value;
+                }
+            });
         }
-
         return result;
     }
 
@@ -71,5 +78,22 @@ $(document).ready(function() {
                                         itemQuality === 'epic' ? 'epic' :
                                         itemQuality === 'legendary' ? 'legendary' : '';
 
-                        var itemLink = `<a class="${itemClass}" href="https://wowhead.com/classic/item=${itemId}" target="_blank">
-                                          <img src="https://wow.zamimg.com/images/wow/icons/small/${itemIcon}.jpg" alt
+                        var itemLink = `<a class="${itemClass}" href="https://classic.wowhead.com/item=${itemId}" target="_blank">
+                                          <img src="https://wow.zamimg.com/images/wow/icons/small/${itemIcon}.jpg" alt="${itemName}" />
+                                          ${itemName}
+                                        </a>`;
+
+                        output.append(`<div>${itemCount}x ${itemLink}</div>`);
+                    }
+                }
+            }
+        } else {
+            log('No BrotherBags data found');
+        }
+    }
+
+    function log(message) {
+        var logDiv = $('#log');
+        logDiv.append(message + '\n');
+    }
+});
