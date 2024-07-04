@@ -95,7 +95,7 @@ $(document).ready(function() {
 
                     for (var itemId in items) {
                         var itemCount = items[itemId];
-                        var item = classicitems.find(item => item.itemId == itemId);
+                        var item = wowclassic.find(item => item.itemId == itemId);
 
                         if (item) {
                             var itemName = item.name;
