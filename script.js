@@ -57,7 +57,7 @@ $(document).ready(function() {
         switch (key.type) {
             case 'Identifier':
             case 'StringLiteral':
-                return key.value || key.name;
+                return key.raw.replace(/^"(.*)"$/, '$1');
             case 'NumericLiteral':
                 return key.value.toString();
             default:
