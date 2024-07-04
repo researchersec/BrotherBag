@@ -53,7 +53,7 @@ $(document).ready(function() {
     }
 
     function getFieldKey(key) {
-        if (!key) return key;
+        if (!key) return null;
         switch (key.type) {
             case 'Identifier':
             case 'StringLiteral':
@@ -66,7 +66,7 @@ $(document).ready(function() {
     }
 
     function getFieldValue(value) {
-        if (!value) return value;
+        if (!value) return null;
         switch (value.type) {
             case 'StringLiteral':
                 return value.raw.replace(/^"(.*)"$/, '$1');
@@ -78,7 +78,7 @@ $(document).ready(function() {
             case 'TableValue':
                 return getFieldValue(value.value);
             default:
-                return value.raw;
+                return null;
         }
     }
 
@@ -95,7 +95,7 @@ $(document).ready(function() {
 
                     for (var itemId in items) {
                         var itemCount = items[itemId];
-                        var item = wowclassic.find(item => item.itemId == itemId);
+                        var item = classicitems.find(item => item.itemId == itemId);
 
                         if (item) {
                             var itemName = item.name;
