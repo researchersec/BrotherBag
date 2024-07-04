@@ -24,7 +24,6 @@ $(document).ready(function() {
             log('Lua AST: ' + JSON.stringify(luaAST, null, 2));
             var jsonResult = {};
 
-            // Traverse the AST to extract BrotherBags
             luaAST.body.forEach(function(node) {
                 if (node.type === 'AssignmentStatement') {
                     node.variables.forEach(function(variable, index) {
@@ -45,14 +44,38 @@ $(document).ready(function() {
         var result = {};
         if (node.type === 'TableConstructorExpression') {
             node.fields.forEach(function(field) {
-                if (field.key.type === 'Identifier' && field.value.type === 'TableConstructorExpression') {
-                    result[field.key.name] = traverseTable(field.value);
-                } else if (field.key.type === 'Identifier') {
-                    result[field.key.name] = field.value.value;
-                }
+                var key = getFieldKey(field.key);
+                result[key] = getFieldValue(field.value);
             });
         }
         return result;
+    }
+
+    function getFieldKey(key) {
+        if (!key) return key;
+        switch (key.type) {
+            case 'Identifier':
+            case 'StringLiteral':
+                return key.value || key.name;
+            case 'NumericLiteral':
+                return key.value.toString();
+            default:
+                return key.name;
+        }
+    }
+
+    function getFieldValue(value) {
+        if (!value) return value;
+        switch (value.type) {
+            case 'StringLiteral':
+            case 'NumericLiteral':
+            case 'BooleanLiteral':
+                return value.value;
+            case 'TableConstructorExpression':
+                return traverseTable(value);
+            default:
+                return value.raw;
+        }
     }
 
     function displayData(data) {
