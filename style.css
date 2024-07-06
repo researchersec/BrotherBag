@@ -1,104 +1,68 @@
-body {
-    font-family: Open Sans, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    line-height: 1.1;
-    background: #2e2e2e;
-    color: #f0f0f0;
-}
-
+/* General Styles */
 .container {
-    margin: 50px auto;
     max-width: 1200px;
-    text-align: center;
+    margin: 0 auto;
     padding: 20px;
-    background: #3c3c3c;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-h1 {
-    margin-bottom: 20px;
-    color: #ffffff;
+h1, h2 {
+    text-align: center;
 }
 
 #stats-box {
-    text-align: left;
-    background: #4a4a4a;
+    background: #f9f9f9;
     padding: 10px;
-    border-radius: 8px;
     margin-bottom: 20px;
-}
-
-#stats-box h2 {
-    margin: 0 0 10px 0;
-    color: #ffffff;
-}
-
-#stats-box p {
-    margin: 5px 0;
-    color: #ffffff;
-}
-
-label {
-    color: #ffffff;
-}
-
-select {
-    margin-bottom: 20px;
-    padding: 5px;
-    background: #4a4a4a;
-    color: #ffffff;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-.character-table-container {
+#name-filter {
+    display: block;
+    margin: 10px auto;
+    padding: 5px;
+}
+
+/* Character Inventory Styles */
+.character-inventory-container {
+    border: 1px solid #ddd;
     margin-bottom: 20px;
-    background: #4a4a4a;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 4px;
+    background: #fff;
 }
 
-.character-table {
-    width: 100%;
-    margin: 10px 0;
-    border-collapse: collapse;
-    background: #434343;
+.inventory-item__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
 }
 
-.character-table th, .character-table td {
-    padding: 8px;
-    border: 1px solid #272727;
-    text-align: left;
+.inventory-item__top-right {
+    display: flex;
+    flex-direction: column;
 }
 
-.character-table th {
-    background: #313131;
+.inventory-item__name a {
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
-.character-table td {
-    background: #434343;
+.inventory-item__details {
+    display: flex;
+    gap: 10px;
+    font-size: 0.9em;
 }
 
-.character-table td:nth-child(1) {
-    text-align: left;
-    padding-left: 10px;
+.inventory-item__picture-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.character-table tfoot {
-    background: #6a6a6a;
-}
-
-a {
-    color: #1e90ff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.icon {
+.inventory-item__picture {
     border-radius: 2px;
     box-shadow: 0px 0px 1px 1px #000;
     margin: 0px 3px 0px 1px;
@@ -106,23 +70,30 @@ a:hover {
     width: 15px;
 }
 
-.white,.white:hover,.white:focus {
+.inventory-item__bottom {
+    text-align: right;
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+/* Item Quality Colors */
+.white, .white:hover, .white:focus {
     color: #9F7445;
 }
 
-.zold,.zold:hover,.zold:focus {
+.zold, .zold:hover, .zold:focus {
     color: #149F00;
 }
 
-.rare,.rare:hover,.rare:focus {
+.rare, .rare:hover, .rare:focus {
     color: #0070DD;
 }
 
-.epic,.epic:hover,.epic:focus {
+.epic, .epic:hover, .epic:focus {
     color: #A335EE;
 }
 
-.legendary,.legendary:hover,.legendary:focus {
+.legendary, .legendary:hover, .legendary:focus {
     color: #FF8000;
 }
 
