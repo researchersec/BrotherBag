@@ -9,6 +9,7 @@ $(document).ready(function() {
 
         var itemPrices = {};
         var characterValues = {};
+        var showItemsWithoutPricing = true;
 
         // Process the pricing data
         latestData.pricing_data.forEach(function(priceData) {
@@ -49,6 +50,12 @@ $(document).ready(function() {
             }
         });
 
+        // Toggle items without pricing data
+        $('#toggle-pricing').on('click', function() {
+            showItemsWithoutPricing = !showItemsWithoutPricing;
+            $('.inventory-item__no-price').toggle(showItemsWithoutPricing);
+        });
+
         // Calculate and display statistics
         displayStatistics(characterValues);
     });
@@ -74,7 +81,7 @@ $(document).ready(function() {
                     totalValue += itemPrices[itemId] ? itemCount * itemPrices[itemId] : 0;
 
                     html += `
-                        <div class="inventory-item__top rsborder-tiny">
+                        <div class="inventory-item__top ${itemPrices[itemId] ? '' : 'inventory-item__no-price'}">
                             <div class="inventory-item__top-right">
                                 <div class="inventory-item__name">
                                     <a class="rstext ${getItemClass(itemDetails.quality)}" href="${itemLink}" target="_blank">
@@ -91,7 +98,7 @@ $(document).ready(function() {
                                 </div>
                             </div>
                             <div class="inventory-item__picture-container">
-                                <img class="inventory-item__picture" src="${itemIcon}" width="63" height="56"/>
+                                <img class="inventory-item__picture" src="${itemIcon}" alt="${itemName}">
                             </div>
                         </div>`;
                 }
@@ -167,13 +174,11 @@ $(document).ready(function() {
     function calculateCharacterValue(details, itemPrices) {
         var items = processCharacterDetails(details);
         var totalValue = 0;
-
         for (var itemId in items) {
             if (items.hasOwnProperty(itemId) && itemPrices[itemId]) {
                 totalValue += items[itemId] * itemPrices[itemId];
             }
         }
-
         return totalValue;
     }
 
