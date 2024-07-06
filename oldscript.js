@@ -32,6 +32,16 @@ $(document).ready(function() {
             }
         }
 
+        // Initialize DataTables for each character table
+        $('.character-table').each(function() {
+            $(this).DataTable({
+                "order": [[3, "desc"]],
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+        });
+
         // Populate the name filter dropdown
         var nameFilter = $('#name-filter');
         for (var character in characterValues) {
@@ -170,11 +180,11 @@ $(document).ready(function() {
         return totalValue;
     }
 
-    // Function to display statistics
+    // Function to display overall statistics
     function displayStatistics(characterValues) {
         var totalValue = 0;
-        var mostValueCharacter = '';
         var highestValue = 0;
+        var mostValueCharacter = '';
 
         for (var character in characterValues) {
             if (characterValues.hasOwnProperty(character)) {
