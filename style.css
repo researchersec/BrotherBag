@@ -1,128 +1,99 @@
-/* General Styles */
 body {
     font-family: Open Sans, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.6;
-    background: #2e2e2e;
-    color: #f1f1f1;
+    background: #2b2b2b;
+    color: #eaeaea;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 50px auto;
+    max-width: 1000px;
+    text-align: center;
 }
 
-h1, h2 {
-    text-align: center;
-    color: #f1f1f1;
+h1 {
+    margin-bottom: 20px;
 }
 
 #stats-box {
-    background: #3a3a3a;
-    padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #444;
-    border-radius: 4px;
-    color: #f1f1f1;
-}
-
-#name-filter {
-    display: block;
-    margin: 10px auto;
-    padding: 5px;
     background: #444;
-    color: #f1f1f1;
-    border: 1px solid #555;
-}
-
-.character-inventory-container {
-    border: 1px solid #444;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    background: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
 }
 
 .inventory-item__top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #444;
-    padding: 10px 0;
+    background: #3c3c3c;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 1px solid #555;
 }
 
 .inventory-item__top-right {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
 }
 
 .inventory-item__name a {
-    font-size: 1.1em;
     font-weight: bold;
-    color: #f1f1f1;
 }
 
 .inventory-item__details {
     display: flex;
-    gap: 10px;
-    font-size: 0.9em;
-    color: #f1f1f1;
+    justify-content: space-between;
+    margin-top: 5px;
 }
 
 .inventory-item__picture-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-left: 10px;
 }
 
 .inventory-item__picture {
-    border-radius: 2px;
-    box-shadow: 0px 0px 1px 1px #000;
-    margin: 0px 3px 0px 1px;
-    height: 25px;
-    width: 25px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #000;
 }
 
 .inventory-item__bottom {
-    text-align: right;
-    padding: 10px 0;
-    font-weight: bold;
-    color: #f1f1f1;
+    background: #3c3c3c;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #555;
 }
 
-/* Item Quality Colors */
-.white, .white:hover, .white:focus {
+.white,.white:hover,.white:focus {
     color: #9F7445;
 }
 
-.zold, .zold:hover, .zold:focus {
+.zold,.zold:hover,.zold:focus {
     color: #149F00;
 }
 
-.rare, .rare:hover, .rare:focus {
+.rare,.rare:hover,.rare:focus {
     color: #0070DD;
 }
 
-.epic, .epic:hover, .epic:focus {
+.epic,.epic:hover,.epic:focus {
     color: #A335EE;
 }
 
-.legendary, .legendary:hover, .legendary:focus {
+.legendary,.legendary:hover,.legendary:focus {
     color: #FF8000;
 }
 
 .wowhead-tooltip a {
     font-weight: normal;
-    color: #f1f1f1;
 }
 
-/* Custom Styles */
 a {
-    color: #f1f1f1;
+    font-weight: bold;
 }
 
-a:hover, a:focus {
-    color: #1e90ff;
+a:hover,a:focus {
+    color: #23527c;
     text-decoration: underline;
 }
