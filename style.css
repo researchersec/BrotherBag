@@ -1,23 +1,101 @@
 body {
-    font-family: Open Sans,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: Open Sans, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.6;
-    background: #d1cdc6;
-    color: #373a3c;
+    background: #2e2e2e;
+    color: #f0f0f0;
 }
 
 .container {
     margin: 50px auto;
-    max-width: 800px;
+    max-width: 1200px;
     text-align: center;
+    padding: 20px;
+    background: #3c3c3c;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
     margin-bottom: 20px;
+    color: #ffffff;
 }
 
-table {
+#stats-box {
+    text-align: left;
+    background: #4a4a4a;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#stats-box h2 {
+    margin: 0 0 10px 0;
+    color: #ffffff;
+}
+
+#stats-box p {
+    margin: 5px 0;
+    color: #ffffff;
+}
+
+label {
+    color: #ffffff;
+}
+
+select {
+    margin-bottom: 20px;
+    padding: 5px;
+    background: #4a4a4a;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+}
+
+.character-table-container {
+    margin-bottom: 20px;
+    background: #4a4a4a;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.character-table {
     width: 100%;
+    margin: 10px 0;
+    border-collapse: collapse;
+    background: #434343;
+}
+
+.character-table th, .character-table td {
+    padding: 8px;
+    border: 1px solid #272727;
+    text-align: left;
+}
+
+.character-table th {
+    background: #313131;
+}
+
+.character-table td {
+    background: #434343;
+}
+
+.character-table td:nth-child(1) {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.character-table tfoot {
+    background: #6a6a6a;
+}
+
+a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .icon {
@@ -50,13 +128,4 @@ table {
 
 .wowhead-tooltip a {
     font-weight: normal;
-}
-
-a {
-    font-weight: bold;
-}
-
-a:hover,a:focus {
-    color: #23527c;
-    text-decoration: underline;
 }
