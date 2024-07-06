@@ -21,8 +21,8 @@ $(document).ready(function() {
                 for (var realm in brotherBagsData[name]) {
                     if (brotherBagsData[name].hasOwnProperty(realm)) {
                         var details = brotherBagsData[name][realm];
-                        var tableHtml = createCharacterTable(name, realm, details, itemPrices);
-                        $('#characters-container').append(tableHtml);
+                        var characterHtml = createCharacterInventory(name, realm, details, itemPrices);
+                        $('#characters-container').append(characterHtml);
 
                         // Calculate total value for the character
                         var totalValue = calculateCharacterValue(details, itemPrices);
@@ -31,16 +31,6 @@ $(document).ready(function() {
                 }
             }
         }
-
-        // Initialize DataTables for each character table
-        $('.character-table').each(function() {
-            $(this).DataTable({
-                "order": [[3, "desc"]],
-                "paging": false,
-                "info": false,
-                "searching": false
-            });
-        });
 
         // Populate the name filter dropdown
         var nameFilter = $('#name-filter');
@@ -52,10 +42,10 @@ $(document).ready(function() {
         $('#name-filter').on('change', function() {
             var selectedName = $(this).val();
             if (selectedName) {
-                $('.character-table-container').hide();
+                $('.character-inventory-container').hide();
                 $('[data-character="' + selectedName + '"]').show();
             } else {
-                $('.character-table-container').show();
+                $('.character-inventory-container').show();
             }
         });
 
@@ -63,13 +53,12 @@ $(document).ready(function() {
         displayStatistics(characterValues);
     });
 
-    // Function to create a character table
-    function createCharacterTable(name, realm, details, itemPrices) {
+    // Function to create character inventory
+    function createCharacterInventory(name, realm, details, itemPrices) {
         var items = processCharacterDetails(details);
 
-        var html = '<div class="character-table-container" data-character="' + name + '-' + realm + '">';
+        var html = '<div class="character-inventory-container" data-character="' + name + '-' + realm + '">';
         html += '<h3>' + name + ' - ' + realm + '</h3>';
-        html += '<table class="character-table"><thead><tr><th>Item</th><th>Count</th><th>Price (g)</th><th>Total (g)</th></tr></thead><tbody>';
 
         var totalValue = 0;
         for (var itemId in items) {
@@ -84,24 +73,32 @@ $(document).ready(function() {
                     var itemTotal = itemPrices[itemId] ? (itemCount * itemPrices[itemId] / 10000).toFixed(2) : 'N/A';
                     totalValue += itemPrices[itemId] ? itemCount * itemPrices[itemId] : 0;
 
-                    html += '<tr>';
-                    html += '<td style="text-align: left; padding-left: 10px;"><img class="icon" src="' + itemIcon + '" alt="" /> <a class="' + getItemClass(itemDetails.quality) + '" href="' + itemLink + '" rel="nofollow" target="_blank">' + itemName + '</a></td>';
-                    html += '<td>' + itemCount + '</td>';
-                    html += '<td>' + itemPrice + '</td>';
-                    html += '<td>' + itemTotal + '</td>';
-                    html += '</tr>';
-                } else {
-                    html += '<tr>';
-                    html += '<td>' + itemId + '</td>';
-                    html += '<td>' + itemCount + '</td>';
-                    html += '<td>N/A</td>';
-                    html += '<td>N/A</td>';
-                    html += '</tr>';
+                    html += `
+                        <div class="inventory-item__top rsborder-tiny">
+                            <div class="inventory-item__top-right">
+                                <div class="inventory-item__name">
+                                    <a class="rstext ${getItemClass(itemDetails.quality)}" href="${itemLink}" target="_blank">
+                                        ${itemName}
+                                    </a>
+                                </div>
+                                <div class="inventory-item__details">
+                                    <span>Quantity</span>
+                                    <span>${itemCount}</span>
+                                    <span>Price (g)</span>
+                                    <span>${itemPrice}</span>
+                                    <span>Total (g)</span>
+                                    <span>${itemTotal}</span>
+                                </div>
+                            </div>
+                            <div class="inventory-item__picture-container">
+                                <img class="inventory-item__picture" src="${itemIcon}" width="63" height="56"/>
+                            </div>
+                        </div>`;
                 }
             }
         }
 
-        html += '</tbody><tfoot><tr><th colspan="3">Total</th><th>' + (totalValue / 10000).toFixed(2) + 'g</th></tr></tfoot></table>';
+        html += `<div class="inventory-item__bottom">Total Value: ${(totalValue / 10000).toFixed(2)}g</div>`;
         html += '</div>';
         return html;
     }
