@@ -51,8 +51,8 @@ $(document).ready(function() {
         });
 
         // Toggle items without pricing data
-        $('#toggle-pricing').on('click', function() {
-            showItemsWithoutPricing = !showItemsWithoutPricing;
+        $('#toggle-pricing').on('change', function() {
+            showItemsWithoutPricing = $(this).is(':checked');
             $('.inventory-item__no-price').toggle(showItemsWithoutPricing);
         });
 
